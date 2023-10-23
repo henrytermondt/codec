@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<!-- 
-Penrose Tiles
-6/29/23
- -->
+<!--
+Penrose Tiling - Codec
+-->
 <html>
     <head>
-        <title>Penrose Tilings</title>
+        <title>Penrose Tilings - Codec</title>
+        <link rel="icon" type="image/x-icon" href="/codec/favicon.ico">
+
         <style>
             * {
                 overflow: hidden;
@@ -23,11 +24,9 @@ Penrose Tiles
                 left: 0;
                 top: 0;
             }
-
         </style>
     </head>
     <body>
-        <!-- <div>Hi</div> -->
         <canvas id = 'canvas'></canvas>
         <script>
 
@@ -45,13 +44,6 @@ const showInts = false,
     fill = true;
 let radius = 30, // 20 for smaller designs
     symmetries = 15; // 8, 9, 16
-
-// ctx.strokeStyle = 'white';
-
-// const colors = ['#2E2836', '#6A2E35', '#FEF8F7', '#F2E9E4', '#756D54'];
-// const colors = ['#335c67', '#fff3b0', '#e09f3e', '#9e2a2b', '#540b0e'];
-// const col1 = [13, 81, 133];//[0  , 0  , 0  ];
-// const col2 = [133, 13, 13];
 
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -83,14 +75,7 @@ class Tile {
     }
     display() {
         ctx.fillStyle = Tile.types[this.area].color;
-        // let l = (Math.pow(this.area(), 1 / 10)) * 50;
-        // if (l > 1) l = 1;
-        // ctx.fillStyle = `hsl(${l + 150}, 50%, 50%)`;
-        // ctx.fillStyle = `rgb(${lerp(col1[0], col2[0], l)}, ${lerp(col1[1], col2[1], l)}, ${lerp(col1[2], col2[2], l)})`;
-        // colors[(this.area() * 5 | 0) % 5];
-        // colors[(this.verts.length * o * Math.sqrt(2) | 0) % 5 + ];
-        // `hsl(${this.verts.length + o}, 50%, ${Math.sqrt(this.verts.length * 5) * 5}%)`;
-
+        
         ctx.beginPath();
         ctx.moveTo(this.verts[0][0], this.verts[0][1]);
         for (const vert of this.verts) {
@@ -181,13 +166,6 @@ const tiles = [];
 let tileEdges = {};
 let lines = [];
 
-
-// Adapted from: https://github.com/aatishb/patterncollider/blob/main/vue-definitions.js
-// let steps = 2 * Math.round((radius / (symmetries - 1) - 1)/2) + 1;
-// let offsets = [];
-// for (let i = 0; i < steps; i ++) offsets[i] = i - (steps - 1) * 0.5;
-// offsets.sort((a,b) => Math.abs(a) - Math.abs(b));
-
 let offsets = [0];
 for (let i = 1; i < radius * symmetries; i ++) offsets.push(-i, i);
 
@@ -196,12 +174,8 @@ const getY = (theta, n, x) => Math.tan(theta + Math.PI / 2) * (x - n * Math.cos(
 const getX = (theta, n, y) => (y - n * Math.sin(theta)) / Math.tan(theta + Math.PI / 2) + n * Math.cos(theta);
 
 const cols = ['rgb(242, 233, 228)', 'rgb(46, 40, 54)', 'rgb(85, 37, 42)', 'rgb(254, 248, 247)'];
-//['rgb(calc(106 * 1.8), calc(46 * 1.8), calc(53 * 1.8))', 'rgb(46, 40, 54)', 'rgb(117, 109, 84)', 'rgb(200,200,200)', 'rgb(calc(106 * 0.8), calc(46 * 0.8), calc(53 * 0.8))'];
 
 const createLines = () => {
-    // ctx.clearRect(-width / 2, -height / 2, width, height);
-    // ctx.beginPath();
-
     ctx.fillStyle = '#FEF8F7';
     ctx.fillRect(-width / 2, -height / 2, width, height);
 
@@ -217,8 +191,6 @@ const createLines = () => {
             // Draws the pentagrid
             ctx.strokeStyle = cols[i];
             ctx.beginPath();
-            // ctx.moveTo(-10, slope * (-10 - x) + y);
-            // ctx.lineTo(10, slope * (10 - x) + y);
             ctx.stroke();
             ctx.closePath();
             
@@ -237,9 +209,9 @@ const createLines = () => {
     ctx.closePath();    
 };
 
-const scale = 15;//100;
+const scale = 15;
 ctx.lineCap = 'round';
-ctx.lineWidth = 1.5/scale;//6 * 1 / scale;
+ctx.lineWidth = 1.5/scale;
 ctx.translate(width / 2, height / 2);
 ctx.scale(scale, scale);
 
@@ -339,8 +311,6 @@ const penrose = () => {
     createTiles(intPts);
 };
 
-
-
 window.addEventListener('mousemove', e => {
     const mx = e.offsetX,
         my = e.offsetY;
@@ -362,22 +332,12 @@ const render = () => {
     unitVecs.length = 0;
     for (let i = 0; i < symmetries; i ++) unitVecs.push([Math.cos(2 * Math.PI * i / symmetries), Math.sin(2 * Math.PI * i / symmetries)]);
 
-    // steps = 2 * Math.round((radius / (symmetries - 1) - 1)/2) + 1;
-    // offsets = [];
-    // for (let i = 0; i < steps; i ++) offsets[i] = i - (steps - 1) * 0.5;
-    // offsets.sort((a,b) => Math.abs(a) - Math.abs(b));
-
-
     let offsets = [0];
     for (let i = 1; i < radius * symmetries; i ++) offsets.push(-i, i);
 
     gamma = Array(symmetries);
     gamma.fill(offset);
 
-    // o += 0.4
-    
-    // offset += 0.005;
-    // offset %= 1;
     tiles.length = 0;
     lines.length = 0;
     tileEdges = {};

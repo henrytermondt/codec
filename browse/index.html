@@ -7,7 +7,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins" rel="stylesheet">
         <link rel="stylesheet" href="/codec/main-styles.css">
         <link rel="icon" type="image/x-icon" href="/codec/favicon.ico">
-        
+
         <style>
             /* Main position and layout of the page */
             #container {
@@ -220,6 +220,45 @@
                 margin-top: 18px;
                 margin-left: 2px;
             }
+            #contacts {
+                position: absolute;
+                top: 48px;
+                right: 5%;
+
+                display: flex;
+                flex-direction: column;
+            }
+            .tab {
+                position: relative;
+                top: 4px;
+                width: 2px;
+                height: 1.2em;
+                
+                border-radius: 2px;
+
+                background-color: var(--primary);
+                margin-right: 2px;
+                display: inline-block;
+            }
+            #contacts *:not(.tab) {
+                position: relative;
+                right: 0px;
+                text-align: right;
+            }
+            #contacts-header {
+                right: 0px;
+                font-size: 20px;
+            }
+            #email {
+                position: relative;
+                top: 12px;
+            }
+            #github {
+                top: 27px;
+            }
+            #contacts .tab {
+                margin: 0px 3px;
+            }
 
             /* DESIGN STUFF TO GET RID OF */
             #half {
@@ -238,11 +277,6 @@
                 height: 2px;
 
                 background-color: white;
-            }
-
-            #contact-container {
-                position: absolute;
-                right: 0px;
             }
 
             /* If the screen gets too thin, hide the penrose */
@@ -297,13 +331,25 @@
 
                     <!-- Navigation links -->
                     <div id='nav-container'>
-                        <span id='nav-tab'></span>
+                        <span id='nav-tab' class='tab'></span>
                         <a href='/codec/'>Home</a></li>
                         <a href='/codec/browse/'>Browse</a></li>
                         <a onclick='randomProject();' style='text-decoration: underline; cursor: pointer;'>Random</a></li>
                     </div>
 
                     <div id='copyright'>&copy; 2023. Henry Termondt. All rights reserved.</div>
+                </div>
+
+                <div id='contacts'>
+                    <strong id='contacts-header'>Contacts</strong>
+                    <div id='email'>
+                        <a href='mailto:codec.reach@gmail.com' target='_blank' style='top: -2px;'>codec.reach@gmail.com</a>
+                        <span id='email-tab' class='tab'></span>
+                    </div>
+                    <div id='github'>
+                        <a href='https://github.com/StapleCactus764/codec' target='_blank' style='top: -1px;'>Github</a>
+                        <span id='github-tab' class='tab'></span>
+                    </div>
                 </div>
                 <!-- <div id='half' class='test-line'></div>
                 <div id='quarter' class='test-line'></div>

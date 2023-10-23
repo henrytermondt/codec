@@ -194,7 +194,7 @@
                 font-size: 40px;
             }
             /* Makes a small white line to offset the text so it matches the copyright c */
-            #nav-tab {
+            .tab {
                 position: relative;
                 top: 4px;
                 width: 2px;
@@ -204,6 +204,7 @@
 
                 background-color: var(--primary);
                 margin-right: 2px;
+                display: inline-block;
             }
             /* Contains the links */
             #nav-container {
@@ -221,13 +222,41 @@
                 margin-top: 18px;
                 margin-left: 2px;
             }
+            #contacts {
+                position: absolute;
+                top: 48px;
+                right: 5%;
+
+                display: flex;
+                flex-direction: column;
+            }
+            #contacts *:not(.tab) {
+                position: relative;
+                right: 0px;
+                text-align: right;
+            }
+            #contacts-header {
+                right: 0px;
+                font-size: 20px;
+            }
+            #email {
+                position: relative;
+                top: 12px;
+            }
+            #github {
+                top: 27px;
+            }
+            #contacts .tab {
+                margin: 0px 3px;
+            }
+
 
             /* REMOVE */
             #half {
-                top: calc(50% - 1px);
+                top: calc(50% + 15px);
             }
             #quarter {
-                top: calc(21% - 1px);
+                top: calc(21% + 30px);
             }
             #three-quarters {
                 top: calc(79% - 1px);
@@ -239,11 +268,6 @@
                 height: 2px;
 
                 background-color: white;
-            }
-
-            #contact-container {
-                position: absolute;
-                right: 0px;
             }
 
             /* The penrose */
@@ -376,95 +400,13 @@
                         <span id='arrow-back'>&#129122;</span><a href='/codec/browse'>Browse Projects</a>
                     </span>
                     <span id='next' class='arrow-container'>
-                        <a onclick='randomProject?.();' style='text-decoration: underline;'>Random Project</a><span id='arrow-next'>&#129122;</span>
+                        <a onclick='randomProject?.();' style='text-decoration: underline; cursor: pointer;'>Random Project</a><span id='arrow-next'>&#129122;</span>
                     </span>
                     
                 </div>
                 
                 <!-- The content of the page -->
                 <div id='content'>
-<!-- <p class='center'>
-    This article builds off of the ideas presented in <a href='/projects/?p=vector-motion'>Vector Motion</a>.
-    It's suggested that you read that article before continuing.
-</p>
-<br>
-<h2>What is Verlet Integration?</h2>
-<p>
-    Verlet integration is another integration method, but it has a property which
-    makes it a very good choice for simple physics simulations. That property is
-    that it automatically handles velocity redirection. What does that jargin I
-    just created mean? Think about a Magic 8 Ball, majestically floating above a
-    hill. You ask it your fate, but it does not want to answer, because it knows
-    you will not like it. It subjects itself to the will of physics, and drops
-    straight down. As it hits the hill side, it does not fall through the hill,
-    but rather, it rolls along the surface of the hill. The velocity of the ball
-    was redirected from going straight down to going at an angle. In a physics
-    simulation with Euler integration, you have to redirect the velocity in
-    addition to doing other things. With Verlet integration, that redirection is
-    a byproduct of doing those other things. How nice! This simplifies the
-    calculations significantly, making many projects, like cloth simulations
-    much easier. Verlet integration isn't the most accurate, so it's good for
-    visuals, but not for highly accurate simulations.
-</p>
-<br>
-<h2>How is it Created?</h2>
-<p>
-    The main difference between Verlet integration and many other methods is that it
-    doesn't keep trace of an object's velocity. Instead, it keeps track of the
-    previous position. Since the velocity is simply the difference in positions,
-    it can be calculated by subtracing the previous position from the current one.
-    You can add forces like gravity by adding it to the velocity at this step.
-    After this, simply set the previous position to the current position and add the velocity
-    to the current position. That's it! However, the benefits of Verlet integration
-    won't be apparent if you just implement this; it'll look the exact same as
-    the implicit Euler method.
-</p>
-<br>
-<h2>Creating a Demo</h2>
-<p>
-    One of the easiest ways to show the wonders of Verlet integration is to make
-    a simple physics simulation of balls interacting with each other and rolling
-    around. One such simulation can be found
-    <a href='/projects/verlet-integration/verlet-integration.html'>here</a> (click
-    to pause and move your mouse to control a ball). Verlet integration already handles
-    the movement caused by gravity if you add it as a force, like mentioned before.
-    The next thing to do is to create a boundary so the balls don't fall out of sight.
-    To do this, simply check is past the barrier, and if so, move its position to the
-    closest point that is within the boundary. Verlet integration takes care of making
-    sure that the ball starts to roll in the correct direction automatically. Having
-    a singular ball is a bit unexciting, so adding more balls is a good idea. At this
-    point in time, all of the balls with phase through each other. In order to make
-    the balls interact, check if any two balls are intersecting. If any are, find out
-    how much they overlap and move them each away from each other by half of the distance
-    they overlap each other (each moving them by half ends up moving them so they touch
-    without overlapping. If the half part still seems a bit weird, remember that moving
-    one ball half of the overlapping distance in one direction and the other ball the
-    other half in the opposite direction is equivalent to <m-el>\(0.5+0.5=1\)</m-el>).
-</p>
-<p>
-    For small numbers of balls, this current method will work well; however, adding
-    more balls will cause the balls to sink into each other, because, though the collision
-    code for balls will prevent any two balls from overlapping, the corrections can push
-    a ball into another ball. This sinking effect generally looks fairly odd. To get rid
-    of it, all you have to do is check all of the intersections multiple times. Each pass,
-    each ball will find a position that overlaps with its neighbors less and less.
-    This is all of it! You never have to touch the velocity when doing the collisions. All of
-    it is handled automatically.
-</p>
-<br>
-<h2>Further Reading</h2>
-<ul id = 'further-reading-list'>
-    <li>
-        <a href='https://www.youtube.com/watch?v=3HjO_RGIjCU' target='_blank'>Verlet Integration Part I</a> - Coding Math.
-        The start of a series which covers Verlet integration and how to create
-        more advanced physics simulations.
-    </li>
-    <li>
-        <a href='https://en.wikipedia.org/wiki/Verlet_integration' target='_blank'>Verlet integration</a> - Wikipedia.
-        Thoroughly covers the mathematics.
-    </li>
-</ul> -->
-
                     <!-- <m-el>\(\)</m-el> -->
                     <!-- <m-el>\[\]</m-el> -->
                 </div>
@@ -475,13 +417,25 @@
 
                     <!-- Nav links -->
                     <div id='nav-container'>
-                        <span id='nav-tab'></span>
+                        <span id='nav-tab' class='tab'></span>
                         <a href='/codec/'>Home</a></li>
                         <a href='/codec/browse/'>Browse</a></li>
                         <a onclick='randomProject();' style='text-decoration: underline; cursor: pointer;'>Random</a></li>
                     </div>
 
                     <div id='copyright'>&copy; 2023. Henry Termondt. All rights reserved.</div>
+                </div>
+                
+                <div id='contacts'>
+                    <strong id='contacts-header'>Contacts</strong>
+                    <div id='email'>
+                        <a href='mailto:codec.reach@gmail.com' target='_blank' style='top: -2px;'>codec.reach@gmail.com</a>
+                        <span id='email-tab' class='tab'></span>
+                    </div>
+                    <div id='github'>
+                        <a href='https://github.com/StapleCactus764/codec' target='_blank' style='top: -1px;'>Github</a>
+                        <span id='github-tab' class='tab'></span>
+                    </div>
                 </div>
                 <!-- <div id='half' class='test-line'></div>
                 <div id='quarter' class='test-line'></div>
@@ -599,13 +553,7 @@ fetch('/codec/projects/projects.json').then(data => {
     });
 });
 
-const resize = () => { // Dealing with resizing pages and the Penrose tilings
-    let penroseWidth = window.innerWidth * 0.25;
-    if (penroseWidth > 170) penroseWidth = 170;
-    document.querySelector(':root').style.setProperty('--penrose-width', `${penroseWidth}px`);
-};
-window.onresize = resize;
-resize();
+document.querySelector(':root').style.setProperty('--penrose-width', '170px');
 
 const getContent = () => {
     console.log(content.innerHTML);
