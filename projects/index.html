@@ -441,14 +441,6 @@
                 <!-- <div id='half' class='test-line'></div>
                 <div id='quarter' class='test-line'></div>
                 <div id='three-quarters' class='test-line'></div> -->
-                <!-- <div id='nav-container'>
-                        <strong>Pages:</strong>
-                        <ul>
-                            <li><a href='/'>Home Page</a></li>
-                            <li><a href='/browse/'>Browse Projects</a></li>
-                            <li><a onclick='randomProject();' style='text-decoration: underline;'>Random Project</a></li>
-                        </ul>
-                    </div> -->
 
                 <!-- The penrose in the center of the footer -->
                 <div id='footer-img-container'>
@@ -457,15 +449,6 @@
                     </div>
                 </div>
                 <div></div>
-
-                <!-- <div id='contact-container'>
-                    <strong>Pages:</strong>
-                    <ul>
-                        <li><a href='/'>Home Page</a></li>
-                        <li><a href='/browse/'>Browse Projects</a></li>
-                        <li><a onclick='randomProject();' style='text-decoration: underline;'>Random Project</a></li>
-                    </ul>
-                </div> -->
             </footer>
         </div>
         
@@ -481,17 +464,6 @@ class MathElement extends HTMLElement {
     }
 }
 customElements.define('m-el', MathElement);
-
-// const math = document.querySelectorAll('m-el');
-// for (const m of math) {
-//     if (m.innerHTML[1] === '(') {
-//         console.log(m.innerHTML);
-//         m.innerHTML = m.innerHTML.slice(0, 2) + '\\smash{' + m.innerHTML.slice(2)
-//         m.innerHTML = m.innerHTML.slice(-Infinity, -2) + '}' + m.innerHTML.slice(-2)
-//         console.log(m.innerHTML);
-//     }
-    
-// }
 
         </script>
 
@@ -509,6 +481,14 @@ const loading = document.getElementById('loading'),
 
 const setIncompletePage = () => { // What should be run when the page either isn't complete?
     return 'Uh oh! This page appears to be uncomplete. Please come back later.';
+};
+
+let projectNames;
+const randomProject = () => { // Selects a random project that isn't the current one
+    let choice = `?p=${projectNames[Math.random() * projectNames.length | 0]}`
+    while(choice === location.search) choice = `?p=${projectNames[Math.random() * projectNames.length | 0]}`
+
+    location.search = choice;
 };
 
 let info;
@@ -534,14 +514,6 @@ const onInfoLoad = () => {
     mathjax.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js';
     mathjax.async = true;
     document.querySelector('head').appendChild(mathjax);
-};
-
-let projectNames;
-const randomProject = () => { // Selects a random project that isn't the current one
-    let choice = `?p=${projectNames[Math.random() * projectNames.length | 0]}`
-    while(choice === location.search) choice = `?p=${projectNames[Math.random() * projectNames.length | 0]}`
-
-    location.search = choice;
 };
 
 // Fetches information
